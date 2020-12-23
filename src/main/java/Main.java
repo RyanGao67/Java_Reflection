@@ -46,7 +46,7 @@ public class Main {
             Exercise2.findAllImplementedInterfaces(clazz);
         System.out.println();
 
-        // access private
+        // Exercise 4 access private
         initConfiguration();
         WebServer webServer = new WebServer();
         webServer.startServer();
