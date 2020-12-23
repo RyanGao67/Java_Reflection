@@ -1,10 +1,16 @@
+import init.ServerConfiguration;
+import web.WebServer;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, IOException {
         // Exercise 0 get the class object
         Class<String> stringClass = String.class;
         Map<String, Integer> mapObject = new HashMap();
@@ -39,8 +45,20 @@ public class Main {
         for(Class<?> clazz: new Class<?>[]{Collection.class, boolean.class, int[][].class, Color.class, circleObject.getClass()})
             Exercise2.findAllImplementedInterfaces(clazz);
         System.out.println();
+
+        // access private
+        initConfiguration();
+        WebServer webServer = new WebServer();
+        webServer.startServer();
+
     }
 
+    public static void initConfiguration() throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
+        Constructor<ServerConfiguration> constructor = ServerConfiguration.class.getDeclaredConstructor(int.class, String.class);
+        // access an otherwise unaccessible class
+        constructor.setAccessible(true);
+        constructor.newInstance(8000, "Good Day!");
+    }
 
     private static void printClassInfo(Class<?> ...classes){
         for(Class<?> clazz:classes){
